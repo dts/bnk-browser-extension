@@ -1,21 +1,65 @@
 const path = require('path');
 const SizePlugin = require('size-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtensionReloader  = require('webpack-extension-reloader');
 const TerserPlugin = require('terser-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-	devtool: 'source-map',
+	devtool: 'inline-source-map',
 	stats: 'errors-only',
 	entry: {
 		background: './source/background',
-		options: './source/options'
+    popup: './source/popup.js',
+		options: './source/options',
 	},
 	output: {
 		path: path.join(__dirname, 'distribution'),
 		filename: '[name].js'
 	},
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      // this will apply to both plain `.js` files
+      // AND `<script>` blocks in `.vue` files
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
+      },
+      // this will apply to both plain `.css` files
+      // AND `<style>` blocks in `.vue` files
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          { loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: path.join(__dirname, 'distribution'),
+            }
+          },
+          'css-loader',
+        ]
+      }
+    ]
+  },
 	plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+    new VueLoaderPlugin(),
 		new SizePlugin(),
+    new ExtensionReloader({
+      reloadPage: true,
+      entries: {
+        background: 'background',
+        extensionPage: 'popup',
+      }
+    }),
 		new CopyWebpackPlugin([
 			{
 				from: '**/*',
@@ -25,7 +69,7 @@ module.exports = {
 			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 			}
-		])
+		]),
 	],
 	optimization: {
 		minimizer: [
