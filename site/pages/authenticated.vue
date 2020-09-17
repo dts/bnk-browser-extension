@@ -19,7 +19,6 @@ export default {
 
     if(!ext) return this.error = "No browser extension API?";
 
-    
     ext.runtime.sendMessage(
       this.$nuxt.context.env.extensionID,
       { 'type': 'authenticated',
@@ -29,6 +28,9 @@ export default {
         this.response = response;
       }
     );
+
+    if(ext.runtime.lastError)
+      this.error = ext.runtime.lastError;
   }
 }
 
