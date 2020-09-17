@@ -12,9 +12,10 @@
       </svg>
       
       You're installed & authenticated with BNK.
+      <a href="#" @click="logout">Log out</a>
     </div>
     <div  key="installed"  v-else class="installed-badge">
-      You're installed but not authenticate.
+      You're installed but not authenticated.
       <nuxt-link to="/authenticate">Connect your BNK Account</nuxt-link>
     </div>
   </transition>
@@ -45,6 +46,25 @@ export default {
       this.loading = false;
     }
   },
+
+  methods: {
+    async logout() {
+      try {
+        const { error, authenticated } = await this.$extension({
+          'type': 'logout',
+        });
+        
+        this.error = error;
+        this.authenticated = authenticated;
+      } catch(x) {
+        console.log("ERROR: ",x);
+        this.error = x;
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+  
 }
 </script>
 <style scoped>

@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <h1>u r in</h1>
-    {{ error}}
-    {{ response }}
-  </div>
+  <Container>
+    <div v-if="error">
+      {{ error }}
+    </div>
+    <Spinner v-else />
+  </Container>
 </template>
 <script>
 
@@ -16,12 +17,16 @@ export default {
   },
   async mounted() {
     const { error, result } = await this.$extension({
-      'type': 'authenticated',
+      'type': 'authenticate',
       'payload': this.$route.query,
     });
 
     this.error = error;
     this.response = result;
+
+    if(!this.error) {
+      this.$router.push('/');
+    }
   }
 }
 

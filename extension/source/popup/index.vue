@@ -7,7 +7,7 @@
     </div>
     <div v-else>
       <button @click="signIn">
-        Sign in
+        Sign in (yep)
       </button>
     </div>
   </div>
@@ -15,6 +15,7 @@
 <script>
 
 import OptionsStorage from '../options-storage'
+const CLIENT_ID = 'client_id_pbmo15';
 
 export default {
   el: '#app',
@@ -28,10 +29,11 @@ export default {
   },
   methods: {
     async signIn() {
-      let port = browser.runtime.connect();
-      port.postMessage({ 'type': 'signIn' });
-      port.disconnect();
-    },
+      browser.tabs.create(
+        {
+          url: `https://bnk.dev/oauth/authorization?client_id=${CLIENT_ID}&scope=read_write`
+        });
+    }
   },
   async mounted() {
     const options = await OptionsStorage.getAll();
