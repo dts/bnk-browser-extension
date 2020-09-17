@@ -28,7 +28,7 @@ export default {
         if(response)
           this.response = response;
         else
-          this.error = browser.runtime.lastError;
+          this.error = browser.runtime.lastError.message;
       }
     );
   }
