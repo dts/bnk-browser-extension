@@ -14,23 +14,14 @@ export default {
       response: null,
     };
   },
-  mounted() {
-    let ext = window.chrome || window.browser;
+  async mounted() {
+    const { error, result } = await this.$extension({
+      'type': 'authenticated',
+      'payload': this.$route.query,
+    });
 
-    if(!ext) return this.error = "No browser extension API?";
-
-    ext.runtime.sendMessage(
-      this.$nuxt.context.env.extensionID,
-      { 'type': 'authenticated',
-        'payload': this.$route.query,
-      },
-      (response) => {
-        if(response)
-          this.response = response;
-        else
-          this.error = ext.runtime.lastError.message;
-      }
-    );
+    this.error = error;
+    this.response = result;
   }
 }
 

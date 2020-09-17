@@ -31,6 +31,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '~/plugins/extension',
   ],
   /*
   ** Auto import components
