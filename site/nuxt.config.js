@@ -56,6 +56,7 @@ export default {
 
   env: {
     extensionID: config.extensionID,
+    clientID: config.clientID,
   },
 
   serverMiddleware: [
