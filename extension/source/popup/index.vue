@@ -33,6 +33,7 @@ export default {
   },
   async mounted() {
     const options = await OptionsStorage.getAll();
+    console.log("OPTIONS: ",options);
     this.token = options.token;
     this.loaded = true;
   }

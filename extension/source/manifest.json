@@ -1,4 +1,5 @@
 {
+  "id": "doaldmiaeepjopefcjliakaclpijkfnp",
 	"name": "BNK Browser Extension",
 	"version": "0.0.1",
 	"description": "An awesome new browser extension",
@@ -21,6 +22,9 @@
       "16": "icon.png",
       "32": "icon.png"
     }
+  },
+  "externally_connectable": {
+    "matches": ["http://localhost:2999/*"]
   },
 	"permissions": [
 		"storage",

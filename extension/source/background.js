@@ -1,16 +1,23 @@
 // eslint-disable-next-line import/no-unassigned-import
-import './options-storage';
+import optionsStorage from './options-storage';
 
-import signInFlow from './utils/sign-in';
+console.log("On Message External....");
 
-async function signIn() {
-  const { token, error } = await signInFlow();
-  console.log("TOKEN: ",token);
-}
+browser.runtime.onMessageExternal.addListener(
+  async function(request, sender, sendResponse) {
+    // TODO: Security (check sender URL)
+    try {
+      if(sender.url.indexOf('http://localhost:2999/') !== 0) {
+        return { error: 'invalid url' };
+      }
 
-browser.runtime.onConnect.addListener((port) => {
-  console.log("ON CONNECT: ",port);
-  port.onMessage.addListener((message) => {
-    if(message.type == 'signIn') signIn();
+      if(request.type == 'authenticated') {
+        await optionsStorage.set('token',request.payload.access_token);
+        return { status: 'OK' };
+      }
+
+      return { error: 'unknown request type' };
+    } catch(x) {
+      return { error: x }
+    }
   });
-})
