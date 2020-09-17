@@ -1,3 +1,4 @@
+import config from './config';
 
 export default {
   /*
@@ -53,8 +54,13 @@ export default {
   build: {
   },
 
+  env: {
+    extensionID: config.extensionID,
+  },
+
   serverMiddleware: [
-    { path: '/oauth/return', handler: '~/server/retrieve-token', }
+    { path: '/oauth/return', handler: '~/server/retrieve-token', },
+    { path: '/healthcheck', handler: '~/server/healthcheck', },
   ],
     
 }

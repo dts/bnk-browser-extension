@@ -6,7 +6,6 @@
   </div>
 </template>
 <script>
-const EXTENSION_ID = 'doaldmiaeepjopefcjliakaclpijkfnp';
 
 export default {
   data() {
@@ -20,8 +19,9 @@ export default {
 
     if(!ext) return this.error = "No browser extension API?";
 
+    
     ext.runtime.sendMessage(
-      EXTENSION_ID,
+      this.$nuxt.context.env.extensionID,
       { 'type': 'authenticated',
         'payload': this.$route.query,
       },

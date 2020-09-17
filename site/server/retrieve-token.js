@@ -1,7 +1,7 @@
 const qs = require('qs');
 const unet = require('unet');
 
-import { CLIENT_ID, CLIENT_SECRET, BEARER_TOKEN } from '../secrets.js'
+import config from '../config.js'
 
 export default async function(req,res) {
   const [url,query] = req.url.match(/\?(.*)/)||[]
@@ -21,12 +21,12 @@ export default async function(req,res) {
     method: 'post',
     url: 'https://api.bnk.dev/oauth/tokens',
     headers: {
-      authorization: `Bearer ${BEARER_TOKEN}`,
+      authorization: `Bearer ${config.bearerToken}`,
     },
     body: {
       code: code,
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_id: config.clientID,
+      client_secret: config.clientSecret,
       grant_type: 'authorization_code',
     }
   })

@@ -2,7 +2,8 @@
   <div v-if="loaded">
     {{error}}
     <div v-if="token">
-      We've got a token: {{token}}
+      Bearer fetched:
+      {{cards}}
     </div>
     <div v-else>
       <button @click="signIn">
@@ -22,6 +23,7 @@ export default {
       loaded: false,
       error: null,
       token: null,
+      cards: null,
     };
   },
   methods: {
@@ -33,9 +35,32 @@ export default {
   },
   async mounted() {
     const options = await OptionsStorage.getAll();
-    console.log("OPTIONS: ",options);
+
     this.token = options.token;
     this.loaded = true;
+
+    if(this.token) {
+      this.cards = await fetch('https://api.bnk.dev/graphql',{
+        method: 'POST',
+        credentials: 'omit',
+        body: JSON.stringify({
+          query: `
+query {
+  cardRoutes{
+    nodes {
+      name
+      id
+    }
+  }
+}
+          `
+        }),
+        headers: {
+          'content-type': 'application/json',
+          'authorization': `Bearer ${this.token}`
+        }
+      }).then(r => r.json());
+    }
   }
 }
 </script>
