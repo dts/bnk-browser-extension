@@ -25,12 +25,12 @@ export default {
         'payload': this.$route.query,
       },
       (response) => {
-        this.response = response;
+        if(response)
+          this.response = response;
+        else
+          this.error = browser.runtime.lastError;
       }
     );
-
-    if(ext.runtime.lastError)
-      this.error = ext.runtime.lastError;
   }
 }
 
