@@ -1,4 +1,4 @@
-import graphql from './graphql'
+import { graphql } from './api'
 import OptionsStorage from '@/options-storage'
 
 let cache;

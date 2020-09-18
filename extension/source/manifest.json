@@ -34,7 +34,8 @@
 		"storage",
     "tabs",
     "webNavigation",
-    "https://api.bnk.dev/"
+    "https://api.bnk.dev/",
+    "http://api.bank.localhost:30001/"
 	],
 	"options_ui": {
 		"chrome_style": true,

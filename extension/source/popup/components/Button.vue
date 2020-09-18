@@ -1,10 +1,15 @@
 <template>
   <router-link v-if="to" :to="to" v-on="$listeners"><slot /></router-link>
-  <button v-else v-on="$listeners"><slot /></button>
+  <button v-else @click="click"><slot /></button>
 </template>
 <script>
 export default {
   props: ['to'],
+  methods: {
+    click() {
+      this.$emit('click');
+    }
+  }
 }
 </script>
 <style scoped>

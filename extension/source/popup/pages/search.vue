@@ -20,17 +20,17 @@
   </div>
 </template>
 <script>
-import gql from '@/utils/graphql';
+import {graphql as gql} from '@/utils/api';
 
 const QUERY = `
 query($name:String!) {
-  cards:cardRoutes(filter: { name: { includesInsensitive: $name } }) {
+  cards:cardRoutes(first: 5 filter: { name: { includesInsensitive: $name } }) {
     nodes {
       name
       id
     }
   }
-  achs:achRoutes(filter: { name: { includesInsensitive: $name } }) {
+  achs:achRoutes(first: 5 filter: { name: { includesInsensitive: $name } }) {
     nodes {
       name
       id
