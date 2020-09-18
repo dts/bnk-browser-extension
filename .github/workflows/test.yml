@@ -5,9 +5,13 @@ on:
   - push
 
 jobs:
-  test:
+  test-extension:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: npm install
-    - run: npm test
+    - run: cd extension; yarn; yarn test
+  test-site:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: cd site; yarn; yarn test
