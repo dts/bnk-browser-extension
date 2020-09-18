@@ -14,7 +14,6 @@ module.exports = {
 	entry: {
 		background: './source/background',
     popup: './source/popup.js',
-		options: './source/options',
 	},
 	output: {
 		path: path.join(__dirname, 'distribution'),

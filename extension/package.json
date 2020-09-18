@@ -10,12 +10,15 @@
 		"release": "VER=$(daily-version) run-s build version release:*"
 	},
 	"devDependencies": {
+		"@vue/test-utils": "^1.1.0",
+		"babel-jest": "^26.3.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.3",
 		"daily-version": "^0.12.0",
 		"dot-json": "^1.1.0",
 		"eslint": "^6.1.0",
 		"eslint-config-xo": "^0.26.0",
+		"jest": "^26.4.2",
 		"mini-css-extract-plugin": "^0.11.2",
 		"npm-run-all": "^4.1.5",
 		"nuxt": "^2.14.5",
@@ -26,6 +29,7 @@
 		"unet": "^0.3.3",
 		"vue": "^2.6.12",
 		"vue-auto-routing": "^0.5.0",
+		"vue-jest": "^3.0.7",
 		"vue-loader": "^15.9.3",
 		"vue-router": "^3.4.3",
 		"vue-template-compiler": "^2.6.12",
@@ -36,6 +40,20 @@
 		"webpack-extension-reloader": "^1.1.4",
 		"xo": "^0.24.0"
 	},
+  {
+    "jest": {
+      "moduleFileExtensions": [
+        "js",
+        "json",
+        // tell Jest to handle `*.vue` files
+        "vue"
+      ],
+      "transform": {
+        // process `*.vue` files with `vue-jest`
+        ".*\\.(vue)$": "vue-jest"
+      }
+    }
+  },
 	"dependencies": {
 		"clipboard-polyfill": "^3.0.1",
 		"webext-options-sync": "^0.21.2",

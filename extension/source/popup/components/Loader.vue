@@ -1,8 +1,11 @@
 <template>
-  <FullFlexCol v-if="ready">
+  <FullFlexCol key="error" v-if="error">
+    <Error :value="error" />
+  </FullFlexCol>
+  <FullFlexCol key="ready" v-else-if="ready">
     <slot v-bind="value">[empty default slot]</slot>
   </FullFlexCol>
-  <FullFlexCol v-else center>
+  <FullFlexCol key="spinner" v-else center>
     <Spinner />
   </FullFlexCol>
 </template>

@@ -3,32 +3,41 @@
     <Button to="/">Home</Button>
     <Button to="/achs/new">+ACH</Button>
     <Button to="/cards/new">+Card</Button>
-    <input ref="filter" v-model="filter" />
+    <input ref="filter"
+      @focus="hiding=false"
+      @blur="hiding=true"
+      v-model="filter"
+    />
     <Button @click="filter=null">Clear</Button>
+    <transition name="fade">
+      <Search v-if="filter && !hiding" :query="filter" />
+    </transition>
   </div>
 </template>
 <script>
 export default {
-  computed: {
-    filter: {
-      get() {
-        return this.$route.query.name;
-      },
-      set(value) {
-        if(value && value.length > 0) {
-          let query = { name: value };
-
-          if(this.$route.path != '/search') {
-            this.$router.push({
-              path: '/search', query
-            });            
-          } else {
-            this.$router.replace({ query });
-          }
-        } else {
-          this.$router.go(-1);
-        }
-      }
+  mounted() {
+    this.$refs.filter.focus();
+  },
+  data() {
+    return {
+      filter: null,
+      hiding: false,
+    };
+  },
+  watch: {
+    filter() {
+      this.hiding = false;
+    },
+/*    '$route.path': {
+      handler() {
+        this.hiding = true;
+      } 
+    }*/
+  },
+  methods: {
+    hideLater() {
+      setTimeout(() => this.hiding = true,100)
     }
   }
 }
@@ -36,6 +45,7 @@ export default {
 <style scoped>
 
 .toolbar {
+  position: relative;
   background-color: #ddd;
   display: flex;
   flex-direction: row;
@@ -46,6 +56,11 @@ export default {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0;
+}
+
+.toolbar .search {
+  position: absolute;
+  top: 2em;
 }
 
 </style>

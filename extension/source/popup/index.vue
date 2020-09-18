@@ -16,7 +16,7 @@
 import Router from 'vue-router';
 import routes from 'vue-auto-routing';
 
-import OptionsStorage from '../options-storage'
+import options from '@/utils/options'
 const CLIENT_ID = 'client_id_pbmo15';
 
 const router = new Router({
@@ -25,9 +25,7 @@ const router = new Router({
 });
 
 router.afterEach((to,from) => {
-  console.log("POPUP: ",to);
-  
-  OptionsStorage.set({'popupPage':{ path: to.path, query: to.query }});
+  options.popupPage = { path: to.path, query: to.query };
 });
 
 export default {
@@ -50,9 +48,9 @@ export default {
     }
   },
   async mounted() {
-    const options = await OptionsStorage.getAll();
+    await options.fetch();
 
-      console.log("GO TO: ",options.popupPage);
+    console.log("GO TO: ",options.popupPage);
     this.$router.push(options.popupPage);
     
     this.token = options.token;
@@ -96,5 +94,11 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

@@ -2,7 +2,7 @@ import 'webextension-polyfill'
 import Vue from 'vue'
 import Router from 'vue-router'
 import Popup from './popup/index.vue'
-import OptionsStorage from './options-storage'
+import PersistPageData from './utils/persist-page-data';
 
 // auto-load all components:
 const requireComponent = require.context('./popup/components',true,/^[^_].*?\.(vue|js)$/)
@@ -14,8 +14,7 @@ requireComponent.keys().forEach(fileName => {
 });
 
 Vue.use(Router)
+Vue.mixin(PersistPageData);
 
-Vue.prototype.$extensionOptions = OptionsStorage;
-window.extensionOptions = OptionsStorage;
 
 new Vue(Popup);

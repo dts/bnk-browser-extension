@@ -1,6 +1,5 @@
 <template>
-  <div>
-    Searching for {{$route.query.name}}
+  <div class="search">
     <div v-if="achs && achs.length > 0">
       <h3>ACHs</h3>
       <div v-for="ach in achs">
@@ -20,7 +19,7 @@
   </div>
 </template>
 <script>
-import {graphql as gql} from '@/utils/api';
+import { graphql } from '@/utils/api';
 
 const QUERY = `
 query($name:String!) {
@@ -37,8 +36,10 @@ query($name:String!) {
     }
   }
 }`;
+import worker from '@/utils/worker';
 
 export default {
+  props: ['query'],
   data() {
     return { 
       error: null,
@@ -47,20 +48,34 @@ export default {
     };
   },
   watch: {
-    '$route.query': {
+    query: {
       deep: true,
       immediate: true,
-      async handler() {
-        const { error, result } = await gql(QUERY,this.$route.query);
-        if(error) return this.error = error;
-        const { cards, achs } = result;
-        this.cards = cards.nodes || [];
-        this.achs = achs.nodes || [];
-      }
+      handler: 'search',
     }
+  },
+  methods: {
+    search: worker(async function() {
+      const { error, result } = await graphql(QUERY,{ name: this.query });
+      if(error) return this.error = error;
+      const { cards, achs } = result;
+      this.cards = cards.nodes || [];
+      this.achs = achs.nodes || [];
+    }),
   }
 }
 
-  
-
 </script>
+<style>
+
+.search {
+  background-color: rgba(255,255,255,0.8);
+  width: 100%;
+  box-shadow: 0px 2px 5px rgba(10,10,10,0.7);
+  padding: 1em;
+}
+.search h3:first-child {
+  margin-top: 0;
+}
+
+</style>

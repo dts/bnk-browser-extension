@@ -1,10 +1,11 @@
-// eslint-disable-next-line import/no-unassigned-import
-import optionsStorage from './options-storage';
+import options from '@/utils/options';
 
 console.log("v1");
 
 browser.runtime.onMessageExternal.addListener(
   async function(request, sender, sendResponse) {
+    await options.fetch();
+    
     try {
       if(sender.url.indexOf('http://localhost:2999/') !== 0 &&
         sender.url.indexOf('https://bnk-browser-extension.onrender.com/') !== 0) {
@@ -12,18 +13,16 @@ browser.runtime.onMessageExternal.addListener(
       }
 
       if(request.type == 'authenticate') {
-        await optionsStorage.set({ 'token': request.payload.access_token });
+        options.token = request.payload.access_token;
         return { result: 'authenticated' };
       }
 
       if(request.type == 'checkStatus') {
-        const settings = await optionsStorage.getAll();
-        
-        return { authenticated: !!settings['token'] };
+        return { authenticated: !!options.token };
       }
 
       if(request.type == 'logout') {
-        const r = await optionsStorage.setAll({});
+        const r = await options.clear();
         return { authenticated: false };
       }
 

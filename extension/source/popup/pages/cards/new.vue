@@ -5,7 +5,7 @@
       <label style="display: block;">
         <Selector relation="accounts"
           v-model="accountID" placeholder="Account"
-          :filter="{ name: { notEqualTo: 'closed' } }"
+          :filter="{ status: { notEqualTo: 'closed' } }"
           filter-type="AccountFilter"
         />
       </label>

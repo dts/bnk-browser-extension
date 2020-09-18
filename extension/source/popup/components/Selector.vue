@@ -3,6 +3,7 @@
     v-if="error"
     :value="error"
   />
+  <div v-else-if="!options">...</div>
   <select
     v-else
     :value="value"
@@ -11,10 +12,6 @@
     @input="onInput"
   >
     <option
-      :value="null"
-      hidden
-      >Select</option>
-    <option
       v-for="item in options"
       :key="item.id"
       :label="item.name"
@@ -22,6 +19,10 @@
     >
      {{ item.name }}
     </option>
+    <option
+      :value="null"
+      hidden
+    >Select</option>
   </select>
 </template>
 <script>
