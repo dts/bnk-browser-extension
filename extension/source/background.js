@@ -24,7 +24,6 @@ browser.runtime.onMessageExternal.addListener(
 
       if(request.type == 'logout') {
         const r = await optionsStorage.setAll({});
-        debugger;
         return { authenticated: false };
       }
 

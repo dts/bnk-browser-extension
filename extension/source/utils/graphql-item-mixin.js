@@ -51,7 +51,6 @@ export default {
       OptionsStorage.set({ cache: { id: this.$route.params.id, result: result } });
       
       for(let k in result) {
-        console.log("K: ",k);
         this.$set(this,k,result[k])
       }
     }
