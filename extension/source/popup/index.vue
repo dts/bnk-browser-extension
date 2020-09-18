@@ -1,24 +1,38 @@
 <template>
-  <div v-if="loaded">
-    {{error}}
-    <div v-if="token">
-      Bearer fetched:
-      {{cards}}
-    </div>
+  <Loader :error="error" :value="{loaded}">
+    <FullFlexCol v-if="token">
+      <Toolbar />
+      <router-view></router-view>
+    </FullFlexCol>
     <div v-else>
       <button @click="signIn">
         Sign in (yep)
       </button>
     </div>
-  </div>
+  </Loader>
 </template>
 <script>
+
+import Router from 'vue-router';
+import routes from 'vue-auto-routing';
 
 import OptionsStorage from '../options-storage'
 const CLIENT_ID = 'client_id_pbmo15';
 
+const router = new Router({
+  routes,
+  mode: 'abstract',
+});
+
+router.afterEach((to,from) => {
+  console.log("POPUP: ",to);
+  
+  OptionsStorage.set({'popupPage':{ path: to.path, query: to.query }});
+});
+
 export default {
   el: '#app',
+  router,
   data() {
     return {
       loaded: false,
@@ -32,12 +46,15 @@ export default {
       browser.tabs.create(
         {
           url: `https://bnk.dev/oauth/authorization?client_id=${CLIENT_ID}&scope=read_write`
-        });
+      });
     }
   },
   async mounted() {
     const options = await OptionsStorage.getAll();
 
+      console.log("GO TO: ",options.popupPage);
+    this.$router.push(options.popupPage);
+    
     this.token = options.token;
     this.loaded = true;
 
@@ -70,5 +87,14 @@ query {
 html {
   width: 300px;
   height: 400px;
+  margin: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

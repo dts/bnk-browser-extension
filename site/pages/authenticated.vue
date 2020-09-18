@@ -8,6 +8,8 @@
 </template>
 <script>
 
+// TODO take this out of the query string using request modification middleware.
+
 export default {
   data() {
     return {

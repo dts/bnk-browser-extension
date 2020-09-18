@@ -6,6 +6,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const VueAutoRoutingPlugin = require('vue-auto-routing/lib/webpack-plugin')
+
 module.exports = {
 	devtool: 'inline-source-map',
 	stats: 'errors-only',
@@ -46,7 +48,18 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname,'source'),
+    }
+  },
 	plugins: [
+    new VueAutoRoutingPlugin({
+      // Path to the directory that contains your page components.
+      pages: 'source/popup/pages/',
+      // A string that will be added to importing component path (default @/pages/).
+      importPrefix: '@/popup/pages/'
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
