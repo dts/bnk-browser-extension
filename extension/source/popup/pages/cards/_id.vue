@@ -29,7 +29,9 @@
         </tr>
       </tbody>
     </table>
-
+    <ExternalLink :to="`https://bnk.dev/accounts/${cardRoute.account.id}/routes/cards/${cardRoute.id}`">
+      On BNK Site
+    </ExternalLink>
   </Loader>
 </template>
 <script>
@@ -39,7 +41,7 @@ const QUERY = `
 query($id: String!) {
   cardRoute(id:$id) {
     id name cardholderName primaryAccountNumber expiry verificationCode status
-    account { name availableBalance }
+    account { id name availableBalance }
   }
 }`;
 

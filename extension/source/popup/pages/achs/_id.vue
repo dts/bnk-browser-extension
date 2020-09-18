@@ -22,6 +22,9 @@
       </tbody>
     </table>
 
+    <ExternalLink :to="`https://bnk.dev/accounts/${achRoute.account.id}/routes/achs/${achRoute.id}`">
+      On BNK Site
+    </ExternalLink>
   </Loader>
 </template>
 <script>
@@ -31,7 +34,7 @@ const QUERY = `
 query($id: String!) {
   achRoute(id:$id) {
     id name accountNumber routingNumber status
-    account { name availableBalance }
+    account { id name availableBalance }
   }
 }`;
 
