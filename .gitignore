@@ -1,3 +1,4 @@
 node_modules
 distribution
 site/secrets.json
+coverage

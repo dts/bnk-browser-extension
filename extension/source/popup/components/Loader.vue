@@ -17,9 +17,10 @@ export default {
       if(!this.value) return false;
       let keys = Object.keys(this.value);
       let definedKeys = keys.filter(k => this.value[k]);
-      console.log(`DFINED KEYS ${definedKeys} in ${this.value}`);
       return definedKeys.length > 0;
     }
   },
 }
 </script>
+<style>
+</style>

@@ -6,7 +6,7 @@
     </FullFlexCol>
     <div v-else>
       <button @click="signIn">
-        Sign in (yep)
+        Sign in
       </button>
     </div>
   </Loader>

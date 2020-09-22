@@ -11,6 +11,7 @@
 	},
 	"devDependencies": {
 		"@vue/test-utils": "^1.1.0",
+		"babel-core": "^7.0.0-bridge.0",
 		"babel-jest": "^26.3.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.3",
@@ -40,20 +41,42 @@
 		"webpack-extension-reloader": "^1.1.4",
 		"xo": "^0.24.0"
 	},
-  {
-    "jest": {
-      "moduleFileExtensions": [
-        "js",
-        "json",
-        // tell Jest to handle `*.vue` files
-        "vue"
-      ],
-      "transform": {
-        // process `*.vue` files with `vue-jest`
-        ".*\\.(vue)$": "vue-jest"
-      }
-    }
-  },
+	"babel": {
+		"presets": [
+      ["@babel/preset-env",{
+        "targets": {
+          "chrome": "70"
+        }
+      }]
+		]
+	},
+	"jest": {
+    "verbose": true,
+    "coverageProvider": "babel",
+		"collectCoverage": true,
+		"collectCoverageFrom": [
+			"source/popup/**/*.{js,vue}"
+		],
+    "coveragePathIgnorePatterns": [
+    ],
+    "forceCoverageMatch": [
+      "source/popup/index.vue"
+    ],"moduleNameMapper": {
+			"^@/(.*)$": "<rootDir>/source/$1"
+		},
+		"moduleFileExtensions": [
+			"js",
+			"json",
+			"vue"
+		],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupAfterEnv.js"
+    ],
+		"transform": {
+			".*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
+			".*\\.(js)$": "babel-jest"
+		}
+	},
 	"dependencies": {
 		"clipboard-polyfill": "^3.0.1",
 		"webext-options-sync": "^0.21.2",

@@ -68,12 +68,6 @@ export default {
 </script>
 <style>
 
-.search {
-  background-color: rgba(255,255,255,0.8);
-  width: 100%;
-  box-shadow: 0px 2px 5px rgba(10,10,10,0.7);
-  padding: 1em;
-}
 .search h3:first-child {
   margin-top: 0;
 }
