@@ -3,6 +3,7 @@
 	"scripts": {
 		"test": "jest",
 		"build": "webpack --mode=production",
+    "build-and-zip": "webpack --mode=production ; cd distribution ; bestzip ../bnk-extension.zip *",
 		"watch": "webpack --mode=development --watch",
 		"version": "dot-json distribution/manifest.json version $VER",
 		"release:cws": "webstore upload --source=distribution --auto-publish",
@@ -43,25 +44,28 @@
 	},
 	"babel": {
 		"presets": [
-      ["@babel/preset-env",{
-        "targets": {
-          "chrome": "70"
-        }
-      }]
+			[
+				"@babel/preset-env",
+				{
+					"targets": {
+						"chrome": "70"
+					}
+				}
+			]
 		]
 	},
 	"jest": {
-    "verbose": true,
-    "coverageProvider": "babel",
+		"verbose": true,
+		"coverageProvider": "babel",
 		"collectCoverage": true,
 		"collectCoverageFrom": [
 			"source/popup/**/*.{js,vue}"
 		],
-    "coveragePathIgnorePatterns": [
-    ],
-    "forceCoverageMatch": [
-      "source/popup/index.vue"
-    ],"moduleNameMapper": {
+		"coveragePathIgnorePatterns": [],
+		"forceCoverageMatch": [
+			"source/popup/index.vue"
+		],
+		"moduleNameMapper": {
 			"^@/(.*)$": "<rootDir>/source/$1"
 		},
 		"moduleFileExtensions": [
@@ -69,15 +73,16 @@
 			"json",
 			"vue"
 		],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/setupAfterEnv.js"
-    ],
+		"setupFilesAfterEnv": [
+			"<rootDir>/tests/setupAfterEnv.js"
+		],
 		"transform": {
 			".*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
 			".*\\.(js)$": "babel-jest"
 		}
 	},
 	"dependencies": {
+		"bestzip": "^2.1.7",
 		"clipboard-polyfill": "^3.0.1",
 		"webext-options-sync": "^0.21.2",
 		"webextension-polyfill": "^0.4.0"
