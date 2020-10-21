@@ -1,8 +1,9 @@
 <template>
   <transition mode="out-in" name="fade">
-    <div key="error" v-if="error" class="installed-badge error">
-      Error connecting to BNK Browser Extension (is it installed?)
-    </div>
+    <nuxt-link to="/install" v-if="error" key="error" class="installed-badge error">
+      BNK browser extension not installed.
+      Install now!
+    </nuxt-link>
     <div key="loading" v-else-if="loading" class="installed-badge loading">
       <spinner />
     </div>
@@ -80,6 +81,9 @@ export default {
   border-radius: 2em;
   padding: 1em;
   margin: 1em;
+
+  text-decoration: underline;
+  color: black;
 }
 
 svg {
